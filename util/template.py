@@ -12,6 +12,7 @@ from typing import Dict, List
 
 ALLOWED_HEADERS: List[str] = {allowed_headers}
 HEADER_OVERRIDES: Dict[str, str] = {header_overrides}
+BLOCKED_DOMAINS: List[str] = {option.blockedDomains}
 
 def request(flow: http.HTTPFlow) -> None:
     header_allowlist: set[str] = set(ALLOWED_HEADERS)
@@ -22,4 +23,15 @@ def request(flow: http.HTTPFlow) -> None:
     # Set header overrides
     for header, value in HEADER_OVERRIDES.items():
         flow.request.headers[header] = value
+    # Check if domain blocked
+    if isBlockedDomain(flow.request.pretty_host):
+        flow.response = http.Response.make(
+            403,
+            b"Blocked by mitmproxy: Domain is blocked",
+            {"Content-Type": "text/plain"}
+        )
+        return
+
+def isBlockedDomain(domain: str) -> bool:
+    return any(blocked_domain.lower() in domain.lower() for blocked_domain in BLOCKED_DOMAINS)
 '''

@@ -6,7 +6,7 @@ from constants import CommonHeaders, OverrideOptions
 class Option:
     title: str
     description: str
-    blockDomainsByList: bool
-    blockCommonTrackingPatternsByRegex: bool
+    blockedDomains: List[str]
+    blockedDomainPatterns: List[str]
     allowedHeaders: List[Union[CommonHeaders, OverrideOptions]]
     headerOverrides: Dict[Union[CommonHeaders, OverrideOptions], str]

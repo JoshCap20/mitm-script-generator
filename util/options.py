@@ -4,8 +4,8 @@ from constants import CommonHeaders,OverrideOptions
 passthrough_option: Option = Option(
     title="Passthrough",
     description="No request modifications",
-    blockDomainsByList=False,
-    blockCommonTrackingPatternsByRegex=False,
+    blockedDomains=[],
+    blockedDomainPatterns=[],
     allowedHeaders=[OverrideOptions.ALL],
     headerOverrides={},
 )
@@ -13,8 +13,8 @@ passthrough_option: Option = Option(
 secure_option: Option = Option(
     title="Secure",
     description="Block domains by list and regex, all only modified essential headers",
-    blockDomainsByList=True,
-    blockCommonTrackingPatternsByRegex=True,
+    blockedDomains=[],
+    blockedDomainPatterns=[],
     allowedHeaders=[
         CommonHeaders.USER_AGENT,
         CommonHeaders.ACCEPT,
@@ -32,8 +32,8 @@ secure_option: Option = Option(
 brick_wall_option: Option = Option(
     title="Brick wall",
     description="Block domains by list and regex, remove all headers",
-    blockDomainsByList=True,
-    blockCommonTrackingPatternsByRegex=True,
+    blockedDomains=[],
+    blockedDomainPatterns=[],
     allowedHeaders=[OverrideOptions.NONE],
     headerOverrides={},
 )
