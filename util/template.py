@@ -18,7 +18,7 @@ def request(flow: http.HTTPFlow) -> None:
     header_allowlist: set[str] = set(ALLOWED_HEADERS)
     # Remove not allowlisted headers
     for header in list(flow.request.headers.keys()):
-        if header not in header_allowlist:
+        if 'all' not in header_allowlist and ('none' in header_allowlist or header not in header_allowlist):
             del flow.request.headers[header]
     # Set header overrides
     for header, value in HEADER_OVERRIDES.items():
