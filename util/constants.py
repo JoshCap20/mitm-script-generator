@@ -7,7 +7,8 @@ def __load_blocked_domains(file_path: str = "blocked_domains.txt") -> set[str]:
         with open(file_path, "r") as f:
             return set(line.strip().lower() for line in f if line.strip() and not line.startswith("#"))
     except FileNotFoundError:
-        raise FileNotFoundError(f"Blocked domains file '{file_path}' not found.")
+        print(f"Warning: Blocked domains file '{file_path}' not found. Using empty set.")
+        return set()
     except Exception as e:
         raise Exception(f"Error loading blocked domains from '{file_path}': {e}")
 

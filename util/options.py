@@ -4,7 +4,7 @@ from constants import COMMON_BLOCKED_DOMAINS, COMMON_TRACKING_PATTERNS, CommonHe
 passthrough_option: Option = Option(
     title="Passthrough",
     description="No request modifications",
-    blockedDomains=[],
+    blockedDomains=set(),
     blockedDomainPatterns=[],
     allowedHeaders=[OverrideOptions.ALL],
     headerOverrides={},
