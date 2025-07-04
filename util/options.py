@@ -10,6 +10,15 @@ passthrough_option: Option = Option(
     headerOverrides={},
 )
 
+lax_option: Option = Option(
+    title="Lax",
+    description="Headers are unmodified, but blocks known trackers, ads, spam and malware.",
+    blockedDomains=COMMON_BLOCKED_DOMAINS,
+    blockedDomainPatterns=COMMON_TRACKING_PATTERNS,
+    allowedHeaders=[OverrideOptions.ALL.value],
+    headerOverrides={},
+)
+
 secure_option: Option = Option(
     title="Secure",
     description="Block known trackers, malware and spam. No cookies, no tracking headers.",
@@ -17,6 +26,7 @@ secure_option: Option = Option(
     blockedDomainPatterns=COMMON_TRACKING_PATTERNS,
     allowedHeaders=[
         CommonHeaders.USER_AGENT.value,
+        CommonHeaders.USER_AGENT.value.upper(),
         CommonHeaders.ACCEPT.value,
         CommonHeaders.ACCEPT_ENCODING.value,
         CommonHeaders.ACCEPT_LANGUAGE.value,
@@ -24,9 +34,7 @@ secure_option: Option = Option(
     ],
     headerOverrides={
         CommonHeaders.USER_AGENT.value: "Mozilla/5.0 (compatible)",
-        CommonHeaders.ACCEPT.value: "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-        CommonHeaders.ACCEPT_ENCODING.value: "gzip, deflate, br",
-        CommonHeaders.ACCEPT_LANGUAGE.value: "en-US,en;q=0.5",
+        CommonHeaders.USER_AGENT.value.upper(): "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0",
     },
 )
 
@@ -37,6 +45,7 @@ secure_option_with_cookies: Option = Option(
     blockedDomainPatterns=COMMON_TRACKING_PATTERNS,
     allowedHeaders=[
         CommonHeaders.USER_AGENT.value,
+        CommonHeaders.USER_AGENT.value.upper(),
         CommonHeaders.ACCEPT.value,
         CommonHeaders.ACCEPT_ENCODING.value,
         CommonHeaders.ACCEPT_LANGUAGE.value,
@@ -45,9 +54,7 @@ secure_option_with_cookies: Option = Option(
     ],
     headerOverrides={
         CommonHeaders.USER_AGENT.value: "Mozilla/5.0 (compatible)",
-        CommonHeaders.ACCEPT.value: "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-        CommonHeaders.ACCEPT_ENCODING.value: "gzip, deflate, br",
-        CommonHeaders.ACCEPT_LANGUAGE.value: "en-US,en;q=0.5",
+        CommonHeaders.USER_AGENT.value.upper(): "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0",
     },
 )
 
@@ -70,5 +77,5 @@ brick_wall_option: Option = Option(
     headerOverrides={},
 )
 
-OPTIONS_LIST: list[Option] = [passthrough_option, secure_option, brick_wall_option, secure_option_with_cookies]
+OPTIONS_LIST: list[Option] = [passthrough_option, secure_option, brick_wall_option, secure_option_with_cookies, lax_option]
 

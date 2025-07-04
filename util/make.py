@@ -9,7 +9,7 @@ SCRIPT_FILENAME: str = "mitm_script.py"
 def make_script(option: Option) -> None:
     timestamp: str = get_timestamp()
     print(f"[MAKE_SCRIPT:{timestamp}]:: Generating script for option: {option}")
-    write_file(template(option), timestamp, SCRIPT_FILENAME)
+    write_file(template(option, timestamp), timestamp, SCRIPT_FILENAME)
     print(f"[MAKE_SCRIPT:{timestamp}]:: Script generation for option '{option.title}' completed successfully.")
 
 if __name__ == "__main__":
