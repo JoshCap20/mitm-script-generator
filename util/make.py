@@ -1,14 +1,8 @@
 from models import Option
-from constants import CommonHeaders, OverrideOptions
-from options import get_option_by_title, options
-
-def make_script_with_option_string(option_string: str) -> str:
-    return make(get_option_by_title(option_string))
+from template import make as template
 
 def make(option: Option) -> str:
-    script: str = ""
-
-    return script
+    return template(option)
 
 def write(content: str, filename: str = "mitm_script.py") -> None:
     print("Removing existing script if it exists")
@@ -22,7 +16,14 @@ def write(content: str, filename: str = "mitm_script.py") -> None:
         f.write(content)
     print(f"Script written to {filename}")
 
-def make_script(option: Option, filename: str = "mitm_script.py") -> None:
-    print(f"Running make_script with option: {option.title} {filename}")
+def __generate_filename(option: Option) -> str:
+    # Generate a python filename based on time
+    from datetime import datetime
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    return f"{option.title.replace(' ', '_').lower()}_{timestamp}.py"
+
+def make_script(option: Option) -> None:
+    filename: str = __generate_filename(option)
+    print(f"[MAKE_SCRIPT:{option.title}]:: Generating script with filename: {filename}")
     write(make(option), filename)
-    print(f"Script for option '{option.title}' written to {filename}")
+    print(f"[MAKE_SCRIPT:{option.title}]:: Script generation complete. Saved as {filename}")

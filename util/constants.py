@@ -1,7 +1,6 @@
 from enum import Enum
 import re
 
-
 COMMON_TRACKING_PATTERNS: list[re.Pattern[str]] = [
     re.compile(r"([\/?=&]|\.)track(ing)?[\w\-]*[\/?=&]?"),
     re.compile(r"analytics"),
