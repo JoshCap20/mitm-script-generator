@@ -6,7 +6,7 @@ passthrough_option: Option = Option(
     description="No request modifications",
     blockedDomains=set(),
     blockedDomainPatterns=[],
-    allowedHeaders=[OverrideOptions.ALL],
+    allowedHeaders=[OverrideOptions.ALL.value],
     headerOverrides={},
 )
 
@@ -16,17 +16,18 @@ secure_option: Option = Option(
     blockedDomains=COMMON_BLOCKED_DOMAINS,
     blockedDomainPatterns=COMMON_TRACKING_PATTERNS,
     allowedHeaders=[
-        CommonHeaders.USER_AGENT,
-        CommonHeaders.ACCEPT,
-        CommonHeaders.ACCEPT_ENCODING,
-        CommonHeaders.ACCEPT_LANGUAGE,
-        CommonHeaders.AUTHORIZATION
+        CommonHeaders.USER_AGENT.value,
+        CommonHeaders.ACCEPT.value,
+        CommonHeaders.ACCEPT_ENCODING.value,
+        CommonHeaders.ACCEPT_LANGUAGE.value,
+        CommonHeaders.AUTHORIZATION.value,
+        "authorization"
     ],
     headerOverrides={
-        CommonHeaders.USER_AGENT: "Mozilla/5.0 (compatible)",
-        CommonHeaders.ACCEPT: "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-        CommonHeaders.ACCEPT_ENCODING: "gzip, deflate, br",
-        CommonHeaders.ACCEPT_LANGUAGE: "en-US,en;q=0.5",
+        CommonHeaders.USER_AGENT.value: "Mozilla/5.0 (compatible)",
+        CommonHeaders.ACCEPT.value: "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+        CommonHeaders.ACCEPT_ENCODING.value: "gzip, deflate, br",
+        CommonHeaders.ACCEPT_LANGUAGE.value: "en-US,en;q=0.5",
     },
 )
 
@@ -35,7 +36,7 @@ brick_wall_option: Option = Option(
     description="Block known trackers and malware. Remove all headers.",
     blockedDomains=COMMON_BLOCKED_DOMAINS,
     blockedDomainPatterns=COMMON_TRACKING_PATTERNS,
-    allowedHeaders=[OverrideOptions.NONE],
+    allowedHeaders=[OverrideOptions.NONE.value],
     headerOverrides={},
 )
 
@@ -45,7 +46,7 @@ brick_wall_option: Option = Option(
     description="Blocks all requests.",
     blockedDomains=set(OverrideOptions.ALL.value),
     blockedDomainPatterns=[],
-    allowedHeaders=[OverrideOptions.NONE],
+    allowedHeaders=[OverrideOptions.NONE.value],
     headerOverrides={},
 )
 

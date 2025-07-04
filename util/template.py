@@ -2,8 +2,8 @@ from typing import Dict, List
 from models import Option
 
 def make(option: Option) -> str:
-    allowed_headers: List[str] = [h.value for h in option.allowedHeaders]
-    header_overrides: Dict[str, str] = {h.value: v for h, v in option.headerOverrides.items()}
+    allowed_headers: List[str] = [h for h in option.allowedHeaders]
+    header_overrides: Dict[str, str] = {h: v for h, v in option.headerOverrides.items()}
     blocked_domains: List[str] = list(option.blockedDomains)
     return f'''\
 import re

@@ -1,8 +1,7 @@
 
 import re
-from typing import List, Dict, Union, Set
+from typing import List, Dict, Set
 from dataclasses import dataclass
-from constants import CommonHeaders, OverrideOptions
 
 @dataclass(frozen=True)
 class Option:
@@ -10,5 +9,5 @@ class Option:
     description: str
     blockedDomains: Set[str]
     blockedDomainPatterns: List[re.Pattern[str]]
-    allowedHeaders: List[Union[CommonHeaders, OverrideOptions]]
-    headerOverrides: Dict[Union[CommonHeaders, OverrideOptions], str]
+    allowedHeaders: List[str]
+    headerOverrides: Dict[str, str]
