@@ -15,6 +15,13 @@ Assumes both are installed and available in path:
 - mitmproxy
 - python3
 
+You can install mitmproxy on mac via brew:
+```zsh
+brew install mitmproxy
+```
+
+See [mitmproxy docs](https://docs.mitmproxy.org/stable/overview-installation/) for more details.
+
 ## Running mitmproxy with generated script settings
 
 Current setting options are:
@@ -33,7 +40,7 @@ To run mitmproxy with a specific setting, set the `MITM_OPTION` environment vari
 
 ### Example
 ```zsh
-chmod +x startup.sh
+chmod +x run.sh
 export MITM_OPTION="YourOptionName"
-./startup.sh
+./run.sh
 ```
