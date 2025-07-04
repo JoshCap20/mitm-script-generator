@@ -1,5 +1,5 @@
 from models import Option
-from constants import COMMON_TRACKING_PATTERNS, CommonHeaders,OverrideOptions
+from constants import COMMON_BLOCKED_DOMAINS, COMMON_TRACKING_PATTERNS, CommonHeaders,OverrideOptions
 
 passthrough_option: Option = Option(
     title="Passthrough",
@@ -12,8 +12,8 @@ passthrough_option: Option = Option(
 
 secure_option: Option = Option(
     title="Secure",
-    description="Block know trackers, malware and spam. No cookies, no tracking headers.",
-    blockedDomains=[],
+    description="Block known trackers, malware and spam. No cookies, no tracking headers.",
+    blockedDomains=COMMON_BLOCKED_DOMAINS,
     blockedDomainPatterns=COMMON_TRACKING_PATTERNS,
     allowedHeaders=[
         CommonHeaders.USER_AGENT,
@@ -31,8 +31,18 @@ secure_option: Option = Option(
 
 brick_wall_option: Option = Option(
     title="Brick wall",
-    description="Block domains by list and regex, remove all headers",
-    blockedDomains=[],
+    description="Block known trackers and malware. Remove all headers.",
+    blockedDomains=COMMON_BLOCKED_DOMAINS,
+    blockedDomainPatterns=COMMON_TRACKING_PATTERNS,
+    allowedHeaders=[OverrideOptions.NONE],
+    headerOverrides={},
+)
+
+# TODO: Make an allow list domains feature
+brick_wall_option: Option = Option(
+    title="Fort Knox",
+    description="Blocks all requests.",
+    blockedDomains=set(OverrideOptions.ALL.value),
     blockedDomainPatterns=[],
     allowedHeaders=[OverrideOptions.NONE],
     headerOverrides={},

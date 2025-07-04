@@ -1,5 +1,17 @@
-from enum import Enum
 import re
+from enum import Enum
+from typing import Set
+
+def __load_blocked_domains(file_path: str = "blocked_domains.txt") -> set[str]:
+    try:
+        with open(file_path, "r") as f:
+            return set(line.strip().lower() for line in f if line.strip() and not line.startswith("#"))
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Blocked domains file '{file_path}' not found.")
+    except Exception as e:
+        raise Exception(f"Error loading blocked domains from '{file_path}': {e}")
+
+COMMON_BLOCKED_DOMAINS: Set[str] = __load_blocked_domains()
 
 COMMON_TRACKING_PATTERNS: list[re.Pattern[str]] = [
     re.compile(r"([\/?=&]|\.)track(ing)?[\w\-]*[\/?=&]?"),
