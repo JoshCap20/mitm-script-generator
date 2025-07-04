@@ -30,6 +30,10 @@ fi
 echo "Using MITM_OPTION: $MITM_OPTION"
 option=$MITM_OPTION
 
+# Comment out if you want to skip tests
+echo "Running request listener script tests to ensure functionality"
+pytest util/test.py
+
 echo "Generating request listener script"
 python util/make.py $option
 

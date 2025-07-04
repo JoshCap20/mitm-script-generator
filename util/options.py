@@ -68,7 +68,7 @@ brick_wall_option: Option = Option(
 )
 
 # TODO: Make an allow list domains feature
-brick_wall_option: Option = Option(
+fort_knox_option: Option = Option(
     title="Fort Knox",
     description="Blocks all requests.",
     blockedDomains=set(OverrideOptions.ALL.value),
@@ -77,5 +77,5 @@ brick_wall_option: Option = Option(
     headerOverrides={},
 )
 
-OPTIONS_LIST: list[Option] = [passthrough_option, secure_option, brick_wall_option, secure_option_with_cookies, lax_option]
+OPTIONS_LIST: list[Option] = [passthrough_option, secure_option, brick_wall_option, secure_option_with_cookies, lax_option, fort_knox_option]
 
