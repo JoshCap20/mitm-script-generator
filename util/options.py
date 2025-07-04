@@ -20,8 +20,28 @@ secure_option: Option = Option(
         CommonHeaders.ACCEPT.value,
         CommonHeaders.ACCEPT_ENCODING.value,
         CommonHeaders.ACCEPT_LANGUAGE.value,
+        CommonHeaders.AUTHORIZATION.value
+    ],
+    headerOverrides={
+        CommonHeaders.USER_AGENT.value: "Mozilla/5.0 (compatible)",
+        CommonHeaders.ACCEPT.value: "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+        CommonHeaders.ACCEPT_ENCODING.value: "gzip, deflate, br",
+        CommonHeaders.ACCEPT_LANGUAGE.value: "en-US,en;q=0.5",
+    },
+)
+
+secure_option_with_cookies: Option = Option(
+    title="Secure with cookies",
+    description="Block known trackers, malware and spam. Allows cookies, but no tracking headers.",
+    blockedDomains=COMMON_BLOCKED_DOMAINS,
+    blockedDomainPatterns=COMMON_TRACKING_PATTERNS,
+    allowedHeaders=[
+        CommonHeaders.USER_AGENT.value,
+        CommonHeaders.ACCEPT.value,
+        CommonHeaders.ACCEPT_ENCODING.value,
+        CommonHeaders.ACCEPT_LANGUAGE.value,
         CommonHeaders.AUTHORIZATION.value,
-        "authorization"
+        CommonHeaders.COOKIE.value
     ],
     headerOverrides={
         CommonHeaders.USER_AGENT.value: "Mozilla/5.0 (compatible)",
@@ -50,5 +70,5 @@ brick_wall_option: Option = Option(
     headerOverrides={},
 )
 
-OPTIONS_LIST: list[Option] = [passthrough_option, secure_option, brick_wall_option]
+OPTIONS_LIST: list[Option] = [passthrough_option, secure_option, brick_wall_option, secure_option_with_cookies]
 
