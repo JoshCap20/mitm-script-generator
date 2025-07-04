@@ -2,13 +2,12 @@ import re
 from enum import Enum
 from typing import Set
 
-def __load_domain_file(file_path: str = "blocked_domains.txt") -> set[str]:
+def __load_domain_file(file_path: str = "util/blocked_domains.txt") -> set[str]:
     try:
         with open(file_path, "r") as f:
             return set(line.strip().lower() for line in f if line.strip() and not line.startswith("#"))
     except FileNotFoundError:
-        print(f"Warning: Blocked domains file '{file_path}' not found. Using empty set.")
-        return set()
+        raise FileNotFoundError(f"Blocked domains file '{file_path}' not found. Please ensure it exists.")
     except Exception as e:
         raise Exception(f"Error loading blocked domains from '{file_path}': {e}")
 
