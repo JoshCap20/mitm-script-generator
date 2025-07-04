@@ -20,6 +20,7 @@ secure_option: Option = Option(
         CommonHeaders.ACCEPT,
         CommonHeaders.ACCEPT_ENCODING,
         CommonHeaders.ACCEPT_LANGUAGE,
+        CommonHeaders.AUTHORIZATION
     ],
     headerOverrides={
         CommonHeaders.USER_AGENT: "Mozilla/5.0 (compatible)",

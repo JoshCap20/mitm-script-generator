@@ -1,3 +1,13 @@
+
+Simple wrapper for generating mitmproxy request handler script with configurable settings and preset options.
+
+## Prerequisites
+
+Assumes both are installed and available in path:
+
+- mitmproxy
+- python3
+
 ## Running mitmproxy with generated script settings
 
 Current setting options are:
