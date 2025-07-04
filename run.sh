@@ -43,4 +43,4 @@ if ! command -v mitmproxy >/dev/null 2>&1; then
 fi
 
 echo "Running mitmproxy with blocker script"
-mitmdump -s mitm_script.py
+mitmdump -s mitm_script.py --quiet
