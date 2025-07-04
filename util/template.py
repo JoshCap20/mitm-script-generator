@@ -28,7 +28,7 @@ def request(flow: http.HTTPFlow) -> None:
         flow.response = http.Response.make(
             403,
             b"Blocked by mitmproxy: Domain is blocked",
-            {"Content-Type": "text/plain"}
+            {{"Content-Type": "text/plain"}}
         )
         return
 
