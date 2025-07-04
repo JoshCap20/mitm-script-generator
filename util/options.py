@@ -50,10 +50,5 @@ brick_wall_option: Option = Option(
     headerOverrides={},
 )
 
-options = [passthrough_option, secure_option, brick_wall_option]
+OPTIONS_LIST: list[Option] = [passthrough_option, secure_option, brick_wall_option]
 
-def get_option_by_title(title: str) -> Option:
-    for option in options:
-        if option.title.lower() == title.lower():
-            return option
-    raise ValueError(f"Option with title '{title}' not found.")
