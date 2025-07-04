@@ -22,9 +22,4 @@ if __name__ == "__main__":
     if option_title not in [opt.title for opt in OPTIONS_LIST]:
         print(f"Error: Option '{option_title}' not found. Available options are: {[opt.title for opt in OPTIONS_LIST]}")
         sys.exit(1)
-    # try:
-    option: Option = get_option_by_title(option_title)
-    make_script(option)
-    # except ValueError as e:
-    #     print(f"Error: {e}")
-    #     sys.exit(1)
+    make_script(get_option_by_title(option_title))

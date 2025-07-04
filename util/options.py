@@ -30,7 +30,8 @@ secure_option: Option = Option(
         CommonHeaders.ACCEPT.value,
         CommonHeaders.ACCEPT_ENCODING.value,
         CommonHeaders.ACCEPT_LANGUAGE.value,
-        CommonHeaders.AUTHORIZATION.value
+        CommonHeaders.AUTHORIZATION.value,
+        CommonHeaders.AUTHORIZATION.value.upper()
     ],
     headerOverrides={
         CommonHeaders.USER_AGENT.value: "Mozilla/5.0 (compatible)",
@@ -50,6 +51,7 @@ secure_option_with_cookies: Option = Option(
         CommonHeaders.ACCEPT_ENCODING.value,
         CommonHeaders.ACCEPT_LANGUAGE.value,
         CommonHeaders.AUTHORIZATION.value,
+        CommonHeaders.AUTHORIZATION.value.upper(),
         CommonHeaders.COOKIE.value
     ],
     headerOverrides={
