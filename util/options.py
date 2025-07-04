@@ -1,0 +1,41 @@
+from models import Option
+from constants import CommonHeaders,OverrideOptions
+
+passthrough_option: Option = Option(
+    title="Passthrough",
+    description="No request modifications",
+    blockDomainsByList=False,
+    blockCommonTrackingPatternsByRegex=False,
+    allowedHeaders=[OverrideOptions.ALL],
+    headerOverrides={},
+)
+
+secure_option: Option = Option(
+    title="Secure",
+    description="Block domains by list and regex, all only modified essential headers",
+    blockDomainsByList=True,
+    blockCommonTrackingPatternsByRegex=True,
+    allowedHeaders=[
+        CommonHeaders.USER_AGENT,
+        CommonHeaders.ACCEPT,
+        CommonHeaders.ACCEPT_ENCODING,
+        CommonHeaders.ACCEPT_LANGUAGE,
+    ],
+    headerOverrides={
+        CommonHeaders.USER_AGENT: "Mozilla/5.0 (compatible)",
+        CommonHeaders.ACCEPT: "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+        CommonHeaders.ACCEPT_ENCODING: "gzip, deflate, br",
+        CommonHeaders.ACCEPT_LANGUAGE: "en-US,en;q=0.5",
+    },
+)
+
+brick_wall_option: Option = Option(
+    title="Brick wall",
+    description="Block domains by list and regex, remove all headers",
+    blockDomainsByList=True,
+    blockCommonTrackingPatternsByRegex=True,
+    allowedHeaders=[OverrideOptions.NONE],
+    headerOverrides={},
+)
+
+options = [passthrough_option, secure_option, brick_wall_option]
