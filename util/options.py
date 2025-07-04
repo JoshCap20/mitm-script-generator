@@ -1,5 +1,5 @@
 from models import Option
-from constants import CommonHeaders,OverrideOptions
+from constants import COMMON_TRACKING_PATTERNS, CommonHeaders,OverrideOptions
 
 passthrough_option: Option = Option(
     title="Passthrough",
@@ -12,9 +12,9 @@ passthrough_option: Option = Option(
 
 secure_option: Option = Option(
     title="Secure",
-    description="Block domains by list and regex, all only modified essential headers",
+    description="Block know trackers, malware and spam. No cookies, no tracking headers.",
     blockedDomains=[],
-    blockedDomainPatterns=[],
+    blockedDomainPatterns=COMMON_TRACKING_PATTERNS,
     allowedHeaders=[
         CommonHeaders.USER_AGENT,
         CommonHeaders.ACCEPT,
