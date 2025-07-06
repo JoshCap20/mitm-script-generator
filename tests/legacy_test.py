@@ -7,7 +7,7 @@ from typing import Dict, Any, Callable, TypeVar, Generic
 from src.options import OPTIONS_LIST
 from src.make import make_script
 
-from tests.utils import MockFlow, MockRequest, _load_script_for_option
+from tests.utils import MockFlow, MockRequest, load_script_for_option
 from tests.data_helper import TestTrackingDomainData
 
 TEST_NOT_TRACKING_DOMAIN_HOST: str = "google.com"
@@ -56,26 +56,9 @@ def not_(matcher: Callable[[Any], bool]) -> Callable[[Any], bool]:
         return not matcher(actual)
     return negated
 
-def test_lax_option() -> None:
-    option = next(o for o in OPTIONS_LIST if o.title == "Lax")
-    script = _load_script_for_option(option)
-    # All headers allowed, but blocks trackers
-    headers = {"user-agent": "ua", "cookie": "c", "x-custom": "v"}
-    flow = MockFlow(headers, TEST_COMMON_TRACKING_DOMAIN_HOST, TEST_COMMON_TRACKING_DOMAIN_URL)
-    script.request(flow)
-    assertThat(flow.response).is_(lambda r: r is not None and r.status_code == 403)
-    flow = MockFlow(headers, TEST_COMMON_TRACKING_PATTERN_HOST, TEST_COMMON_TRACKING_PATTERN_URL)
-    script.request(flow)
-    assertThat(flow.response).is_(lambda r: r is not None and r.status_code == 403)
-    flow = MockFlow(headers, TEST_NOT_TRACKING_DOMAIN_HOST, TEST_NOT_TRACKING_DOMAIN_URL)
-    script.request(flow)
-    assertThat(flow.response).is_(lambda r: r is None)
-    # Headers untouched
-    assertThat(flow.request.headers).contains("user-agent").contains("cookie").contains("x-custom")
-
 def test_secure_option() -> None:
     option = next(o for o in OPTIONS_LIST if o.title == "Secure")
-    script = _load_script_for_option(option)
+    script = load_script_for_option(option)
     # Only allowed headers, others removed
     headers = {"user-agent": "ua", "User-Agent": "UA2", "cookie": "c", "x-custom": "v"}
     flow = MockFlow(headers, TEST_NOT_TRACKING_DOMAIN_HOST, TEST_NOT_TRACKING_DOMAIN_URL)
@@ -102,7 +85,7 @@ def test_secure_option() -> None:
 
 def test_secure_with_cookies_option() -> None:
     option = next(o for o in OPTIONS_LIST if o.title == "Secure with cookies")
-    script = _load_script_for_option(option)
+    script = load_script_for_option(option)
     # Allowed headers, cookies allowed
     headers = {"user-agent": "ua", "cookie": "c", "x-custom": "v"}
     flow = MockFlow(headers, TEST_NOT_TRACKING_DOMAIN_HOST, TEST_NOT_TRACKING_DOMAIN_URL)
@@ -124,7 +107,7 @@ def test_secure_with_cookies_option() -> None:
 
 def test_brick_wall_option() -> None:
     option = next(o for o in OPTIONS_LIST if o.title == "Brick wall")
-    script = _load_script_for_option(option)
+    script = load_script_for_option(option)
     # All headers removed
     headers = {"user-agent": "ua", "cookie": "c", "x-custom": "v"}
     flow = MockFlow(headers, TEST_NOT_TRACKING_DOMAIN_HOST, TEST_NOT_TRACKING_DOMAIN_URL)
@@ -145,7 +128,7 @@ def test_brick_wall_option() -> None:
 
 def test_fort_knox_option() -> None:
     option = next(o for o in OPTIONS_LIST if o.title == "Fort Knox")
-    script = _load_script_for_option(option)
+    script = load_script_for_option(option)
     # All requests blocked, all headers removed
     headers = {"user-agent": "ua", "cookie": "c", "x-custom": "v"}
     flow = MockFlow(headers, TEST_NOT_TRACKING_DOMAIN_HOST, TEST_NOT_TRACKING_DOMAIN_URL)

@@ -1,5 +1,6 @@
 import types
 from typing import Dict, Any
+from assertpy import assert_that
 
 from src.make import make_script
 
@@ -20,9 +21,15 @@ def get_mock_flow(headers: Dict[str, str], host: str, url: str) -> MockFlow:
 def get_mock_request(headers: Dict[str, str], host: str, url: str) -> MockRequest:
     return MockRequest(headers, host, url)
 
-def _load_script_for_option(option: Any) -> Any:
+def load_script_for_option(option: Any) -> Any:
     make_script(option)
     script = types.ModuleType("script")
     with open("mitm_script.py") as f:
         exec(f.read(), script.__dict__)
     return script
+
+def assert_headers_equal(actual: Dict[str, str], expected: Dict[str, str]) -> None:
+    for key, value in expected.items():
+        assert_that(actual).contains(key).contains_value(value)
+    for key in actual.keys():
+        assert_that(expected).contains(key)
