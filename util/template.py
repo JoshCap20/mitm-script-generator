@@ -1,4 +1,4 @@
-from typing import Dict, List, Set
+from typing import Dict, Set
 from models import Option
 
 def make(option: Option, timestamp: str) -> str:

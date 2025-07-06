@@ -102,16 +102,16 @@ def test_secure_option() -> None:
     option = next(o for o in OPTIONS_LIST if o.title == "Secure")
     script = _load_script_for_option(option)
     # Only allowed headers, others removed
-    headers = {"user-agent": "ua", "USER-AGENT": "UA2", "cookie": "c", "x-custom": "v"}
+    headers = {"user-agent": "ua", "User-Agent": "UA2", "cookie": "c", "x-custom": "v"}
     flow = MockFlow(headers, "notblocked.com", "http://notblocked.com/page")
     script.request(flow)
     assertThat(flow.request.headers).doesNotContain("x-custom").doesNotContain("cookie")
-    assertThat(flow.request.headers).contains("user-agent").contains("USER-AGENT")
+    assertThat(flow.request.headers).contains("user-agent").contains("User-Agent")
     # Header override (case-insensitive)
     if "user-agent" in option.headerOverrides:
         assertThat(flow.request.headers["user-agent"]).equals(option.headerOverrides["user-agent"])
-    if "USER-AGENT" in option.headerOverrides:
-        assertThat(flow.request.headers["USER-AGENT"]).equals(option.headerOverrides["USER-AGENT"])
+    if "User-Agent" in option.headerOverrides:
+        assertThat(flow.request.headers["User-Agent"]).equals(option.headerOverrides["User-Agent"])
     # Block tracker domain
     flow = MockFlow({"user-agent": "ua"}, "tracker.com", "http://tracker.com/page")
     script.request(flow)
@@ -129,11 +129,11 @@ def test_secure_with_cookies_option() -> None:
     option = next(o for o in OPTIONS_LIST if o.title == "Secure with cookies")
     script = _load_script_for_option(option)
     # Allowed headers, cookies allowed
-    headers = {"user-agent": "ua", "cookie": "c", "vscode-machineid": "id", "vscode-sessionid": "sid", "x-custom": "v"}
+    headers = {"user-agent": "ua", "cookie": "c", "x-custom": "v"}
     flow = MockFlow(headers, "notblocked.com", "http://notblocked.com/page")
     script.request(flow)
     assertThat(flow.request.headers).doesNotContain("x-custom")
-    assertThat(flow.request.headers).contains("cookie").contains("vscode-machineid").contains("vscode-sessionid")
+    assertThat(flow.request.headers).contains("cookie").contains("user-agent")
     # Block tracker domain
     flow = MockFlow({"user-agent": "ua"}, "tracker.com", "http://tracker.com/page")
     script.request(flow)

@@ -1,13 +1,14 @@
 from datetime import datetime
 
-from models import Option
-from options import OPTIONS_LIST
-
 def get_timestamp() -> str:
     return datetime.now().strftime("%Y%m%d_%H%M%S")
 
-def get_option_by_title(title: str) -> Option:
-    for option in OPTIONS_LIST:
-        if option.title.lower() == title.lower():
-            return option
-    raise ValueError(f"Option with title '{title}' not found.")
+def capitalize(text: str) -> str:
+    if not text:
+        return text
+    if "-" in text:
+        parts = text.split("-")
+        return "-".join(part[0].upper() + part[1:] for part in parts)
+    if " " in text:
+        return " ".join(part[0].upper() + part[1:] for part in text.split(" "))
+    return text[0].upper() + text[1:]

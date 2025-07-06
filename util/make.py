@@ -1,7 +1,7 @@
 from models import Option
 from template import make as template
-from utils import get_timestamp, get_option_by_title
-from options import OPTIONS_LIST
+from utils import get_timestamp
+from options import OPTIONS_LIST, get_option_by_title
 from write import write_file
 
 SCRIPT_FILENAME: str = "mitm_script.py"
