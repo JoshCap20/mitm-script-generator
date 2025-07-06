@@ -48,3 +48,14 @@ class TestPassthroughOption:
 
         # Assert
         assert_that(flow.response).is_none()
+
+    def test_passthrough_option_normal_domain_not_blocked(self, passthrough_script) -> None:
+        # Should not block normal domain
+        # Arrange
+        flow = get_mock_flow(self.HEADERS, TestTrackingDomainData.TEST_NOT_TRACKING_DOMAIN_HOST, TestTrackingDomainData.TEST_NOT_TRACKING_DOMAIN_URL)
+
+        # Act
+        passthrough_script.request(flow)
+
+        # Assert
+        assert_that(flow.response).is_none()

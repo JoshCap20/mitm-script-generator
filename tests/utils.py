@@ -2,6 +2,8 @@ import types
 from typing import Dict, Any
 from assertpy import assert_that
 
+from src.constants import CommonHeaders
+from src.utils import capitalize
 from src.make import make_script
 
 class MockRequest:
@@ -33,3 +35,6 @@ def assert_headers_equal(actual: Dict[str, str], expected: Dict[str, str]) -> No
         assert_that(actual).contains(key).contains_value(value)
     for key in actual.keys():
         assert_that(expected).contains(key)
+
+def get_all_header_names():
+    return list(set([h.value for h in CommonHeaders] + [capitalize(h.value) for h in CommonHeaders]))
