@@ -56,55 +56,6 @@ def not_(matcher: Callable[[Any], bool]) -> Callable[[Any], bool]:
         return not matcher(actual)
     return negated
 
-def test_secure_option() -> None:
-    option = next(o for o in OPTIONS_LIST if o.title == "Secure")
-    script = load_script_for_option(option)
-    # Only allowed headers, others removed
-    headers = {"user-agent": "ua", "User-Agent": "UA2", "cookie": "c", "x-custom": "v"}
-    flow = MockFlow(headers, TEST_NOT_TRACKING_DOMAIN_HOST, TEST_NOT_TRACKING_DOMAIN_URL)
-    script.request(flow)
-    assertThat(flow.request.headers).doesNotContain("x-custom").doesNotContain("cookie")
-    assertThat(flow.request.headers).contains("user-agent").contains("User-Agent")
-    # Header override (case-insensitive)
-    if "user-agent" in option.headerOverrides:
-        assertThat(flow.request.headers["user-agent"]).equals(option.headerOverrides["user-agent"])
-    if "User-Agent" in option.headerOverrides:
-        assertThat(flow.request.headers["User-Agent"]).equals(option.headerOverrides["User-Agent"])
-    # Block tracker domain
-    flow = MockFlow({"user-agent": "ua"}, TEST_COMMON_TRACKING_DOMAIN_HOST, TEST_COMMON_TRACKING_DOMAIN_URL)
-    script.request(flow)
-    assertThat(flow.response).is_(lambda r: r is not None and r.status_code == 403)
-    # Block tracking pattern
-    flow = MockFlow({"user-agent": "ua"}, TEST_COMMON_TRACKING_PATTERN_HOST, TEST_COMMON_TRACKING_PATTERN_URL)
-    script.request(flow)
-    assertThat(flow.response).is_(lambda r: r is not None and r.status_code == 403)
-    # Not blocked
-    flow = MockFlow({"user-agent": "ua"}, TEST_NOT_TRACKING_DOMAIN_HOST, TEST_NOT_TRACKING_DOMAIN_URL)
-    script.request(flow)
-    assertThat(flow.response).is_(lambda r: r is None)
-
-def test_secure_with_cookies_option() -> None:
-    option = next(o for o in OPTIONS_LIST if o.title == "Secure with cookies")
-    script = load_script_for_option(option)
-    # Allowed headers, cookies allowed
-    headers = {"user-agent": "ua", "cookie": "c", "x-custom": "v"}
-    flow = MockFlow(headers, TEST_NOT_TRACKING_DOMAIN_HOST, TEST_NOT_TRACKING_DOMAIN_URL)
-    script.request(flow)
-    assertThat(flow.request.headers).doesNotContain("x-custom")
-    assertThat(flow.request.headers).contains("cookie").contains("user-agent")
-    # Block tracker domain
-    flow = MockFlow({"user-agent": "ua"}, TEST_COMMON_TRACKING_DOMAIN_HOST, TEST_COMMON_TRACKING_DOMAIN_URL)
-    script.request(flow)
-    assertThat(flow.response).is_(lambda r: r is not None and r.status_code == 403)
-    # Block tracking pattern
-    flow = MockFlow({"user-agent": "ua"}, TEST_COMMON_TRACKING_PATTERN_HOST, TEST_COMMON_TRACKING_PATTERN_URL)
-    script.request(flow)
-    assertThat(flow.response).is_(lambda r: r is not None and r.status_code == 403)
-    # Not blocked
-    flow = MockFlow({"user-agent": "ua"}, TEST_NOT_TRACKING_DOMAIN_HOST, TEST_NOT_TRACKING_DOMAIN_URL)
-    script.request(flow)
-    assertThat(flow.response).is_(lambda r: r is None)
-
 def test_brick_wall_option() -> None:
     option = next(o for o in OPTIONS_LIST if o.title == "Brick wall")
     script = load_script_for_option(option)

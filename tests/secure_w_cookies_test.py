@@ -9,11 +9,11 @@ from src.options import get_option_by_title
 
 @pytest.fixture(scope="class")
 def secure_script(request: pytest.FixtureRequest) -> None:
-    return load_script_for_option(get_option_by_title("Secure"))
+    return load_script_for_option(get_option_by_title("Secure with cookies"))
 
-class TestSecureOption:
-    ALLOWED_HEADERS: List[str] = get_option_by_title("Secure").allowedHeaders
-    OVERRIDEN_HEADERS: Dict[str, str] = get_option_by_title("Secure").headerOverrides
+class TestSecureWithCookiesOption:
+    ALLOWED_HEADERS: List[str] = get_option_by_title("Secure with cookies").allowedHeaders
+    OVERRIDEN_HEADERS: Dict[str, str] = get_option_by_title("Secure with cookies").headerOverrides
     HEADERS = {"user-agent": "ua", "cookie": "c", "x-custom": "v"}
 
     def test_secure_option_overrides_specified_headers(self, secure_script) -> None:
@@ -41,7 +41,7 @@ class TestSecureOption:
         # Assert
         assert_that(flow.response).is_none()
         assert_that(flow.request.headers).contains_only(*self.ALLOWED_HEADERS)
-        assert_that(flow.request.headers).does_not_contain("cookie")
+        assert_that(flow.request.headers).contains("cookie")
 
     def test_secure_option_tracker_domain_blocking(self, secure_script) -> None:
         # Should block tracker domain
