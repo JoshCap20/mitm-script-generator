@@ -1,14 +1,14 @@
-from models import Option
-from template import make as template
-from utils import get_timestamp
-from options import OPTIONS_LIST, get_option_by_title
-from write import write_file
+from src.models import Option
+from src.template import make as template
+from src.utils import get_timestamp
+from src.options import OPTIONS_LIST, get_option_by_title
+from src.write import write_file
 
 SCRIPT_FILENAME: str = "mitm_script.py"
 
 def make_script(option: Option) -> None:
     timestamp: str = get_timestamp()
-    print(f"[MAKE_SCRIPT:{timestamp}]:: Generating script for option: {option}")
+    print(f"[MAKE_SCRIPT:{timestamp}]:: Generating script for option: {option.title}")
     write_file(template(option, timestamp), timestamp, SCRIPT_FILENAME)
     print(f"[MAKE_SCRIPT:{timestamp}]:: Script generation for option '{option.title}' completed successfully.")
 

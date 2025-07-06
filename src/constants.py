@@ -2,7 +2,7 @@ import re
 from enum import Enum
 from typing import Set
 
-def __load_domain_file(file_path: str = "util/blocked_domains.txt") -> set[str]:
+def __load_domain_file(file_path: str = "src/blocked_domains.txt") -> set[str]:
     try:
         with open(file_path, "r") as f:
             return set(line.strip().lower() for line in f if line.strip() and not line.startswith("#"))

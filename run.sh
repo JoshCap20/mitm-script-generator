@@ -32,10 +32,10 @@ option=$MITM_OPTION
 
 # Comment out if you want to skip tests
 echo "Running request listener script tests to ensure functionality"
-pytest util/test.py
+pytest src/test.py
 
 echo "Generating request listener script"
-python util/make.py $option
+python src/make.py $option
 
 if ! command -v mitmproxy >/dev/null 2>&1; then
     echo "mitmproxy is not installed in the current environment. Please install it."

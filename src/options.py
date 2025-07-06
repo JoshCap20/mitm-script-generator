@@ -1,6 +1,6 @@
-from models import Option
-from constants import COMMON_BLOCKED_DOMAINS, COMMON_TRACKING_PATTERNS, CommonHeaders,OverrideOptions
-from utils import capitalize
+from src.models import Option
+from src.constants import COMMON_BLOCKED_DOMAINS, COMMON_TRACKING_PATTERNS, CommonHeaders,OverrideOptions
+from src.utils import capitalize
 
 passthrough_option: Option = Option(
     title="Passthrough",
@@ -82,9 +82,7 @@ fort_knox_option: Option = Option(
 )
 
 OPTIONS_LIST: list[Option] = [passthrough_option, secure_option, brick_wall_option, secure_option_with_cookies, lax_option, fort_knox_option]
+OPTIONS_NAME_TO_OPTION: dict[str, Option] = {option.title.lower(): option for option in OPTIONS_LIST}
 
 def get_option_by_title(title: str) -> Option:
-    for option in OPTIONS_LIST:
-        if option.title.lower() == title.lower():
-            return option
-    raise ValueError(f"Option with title '{title}' not found.")
+    return OPTIONS_NAME_TO_OPTION[title.lower()]

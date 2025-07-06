@@ -1,5 +1,5 @@
 from typing import Dict, Set
-from models import Option
+from src.models import Option
 
 def make(option: Option, timestamp: str) -> str:
     allowed_headers: Set[str] = set(option.allowedHeaders)
