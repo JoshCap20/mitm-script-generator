@@ -8,6 +8,41 @@ Use secure settings to block ads, known trackers, malware and spam.
 
 Generates a script that filters headers and blocks domains based on selected option. The script is then run with mitmproxy to intercept and modify requests.
 
+## Customization
+
+Create a new option in `src/options.py` and add it to the `OPTIONS_LIST` list.
+
+### Option class
+
+```zsh
+class Option:
+    title: str
+    description: str
+    blockedDomains: Set[str]
+    blockedDomainPatterns: List[re.Pattern[str]]
+    allowedHeaders: List[str]
+    headerOverrides: Dict[str, str]
+```
+
+By default, no headers are allowed. Use `allowedHeaders` to specify which headers are allowed to be modified. Use `headerOverrides` to override allowed headers with custom values.
+
+To passthrough all headers, use `OverrideOptions.ALL.value`.
+
+Example:
+
+```zsh
+lax_option: Option = Option(
+    title="Lax",
+    description="Headers are unmodified, but blocks known trackers, ads, spam and malware.",
+    blockedDomains=COMMON_BLOCKED_DOMAINS,
+    blockedDomainPatterns=COMMON_TRACKING_PATTERNS,
+    allowedHeaders=[OverrideOptions.ALL.value],
+    headerOverrides={},
+)
+```
+
+See [options](src/options.py) for all default options.
+
 ## Prerequisites
 
 Assumes both are installed and available in path:
@@ -24,7 +59,9 @@ See [mitmproxy docs](https://docs.mitmproxy.org/stable/overview-installation/) f
 
 ## Running mitmproxy with generated script settings
 
-Current setting options are:
+**See above for creating custom options.**
+
+Current default options are:
 | Option                | Description                                                                                                                        | Blocked Domains         | Blocked Patterns           | Allowed Headers                                                                 | Header Overrides                                                                                                                                                                                                                                                        | Notes |
 |-----------------------|------------------------------------------------------------------------------------------------------------------------------------|------------------------|----------------------------|--------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------|
 | Passthrough           | No request modifications. All requests and headers are allowed.                                                                   | None                   | None                       | ALL                                                                            | None                                                                                                                                                                                                                                                                   | No filtering. |
